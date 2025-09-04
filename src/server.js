@@ -1,12 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const connectDatabase = require("./config/database");
+const userRouter = require("./routes/user");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
+app.use(express.json());
+
+app.use("/user", userRouter);
+
 app.get("/", (req, res) => {
-  res.json(`Root of server...`);
+  res.json(`Server is up and running...`);
 });
 
 connectDatabase()
