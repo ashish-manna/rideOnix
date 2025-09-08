@@ -30,7 +30,41 @@ const captainSchema = mongoose.Schema(
     },
     socketId: {
       type: String,
-      default: null,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "inactive",
+    },
+    vehicle: {
+      color: {
+        type: String,
+        minLength: 3,
+        required: true,
+      },
+      plate: {
+        type: String,
+        required: true,
+        minLength: 3,
+      },
+      capacity: {
+        type: Number,
+        required: true,
+        min: 1,
+      },
+      vehicleType: {
+        type: String,
+        enum: ["moto", "auto", "car"],
+        required: true,
+      },
+    },
+    location: {
+      lat: {
+        type: Number,
+      },
+      long: {
+        type: Number,
+      },
     },
   },
   { timestamps: true }

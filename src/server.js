@@ -3,11 +3,13 @@ const express = require("express");
 const connectDatabase = require("./config/database");
 const userRouter = require("./routes/user");
 const captainRouter = require("./routes/captain");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/captain", captainRouter);
