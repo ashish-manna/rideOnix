@@ -51,9 +51,21 @@ const userLogin = async (req, res) => {
   }
 };
 
+const userProfile = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) {
+      throw new Error(`User invalid`);
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ message: err.message || `User not found` });
+  }
+};
+
 const userLogout = async (req, res) => {
   res.cookie("token", null, { expires: new Date(Date.now()) });
   res.status(200).json({ message: `User logout successfully` });
 };
 
-module.exports = { userRegister, userLogin, userLogout };
+module.exports = { userRegister, userLogin, userProfile, userLogout };
