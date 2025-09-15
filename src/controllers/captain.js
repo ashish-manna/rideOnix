@@ -1,13 +1,23 @@
 const Captain = require("../models/captain");
 const bcrypt = require("bcrypt");
-const { userDataValidation } = require("../utils/validations");
+const { captainDataValidation } = require("../utils/validations");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 
 const captainRegister = async (req, res) => {
   try {
-    userDataValidation(req);
-    const { firstName, lastName, email, password } = req.body;
+    captainDataValidation(req);
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      vehicleColor,
+      vehicleType,
+      vehiclePlate,
+      vehicleCapacity,
+    } = req.body;
+
     const isExist = await Captain.findOne({ email: email });
     if (isExist) {
       throw new Error(`Captian already exist`);
@@ -18,9 +28,15 @@ const captainRegister = async (req, res) => {
       lastName,
       email,
       password: hashPassword,
+      vehicle: {
+        color: vehicleColor,
+        capacity: vehicleCapacity,
+        vehicleType,
+        plate: vehiclePlate,
+      },
     });
     await captain.save();
-    res.status(200).json({ message: `New user account created!!..` });
+    res.status(200).json({ message: `New captain account created!!..` });
   } catch (err) {
     res.status(401).json({ message: err.message || "Something went wrong" });
   }
